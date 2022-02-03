@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= title %></title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&amp;display=swap"
+      rel="stylesheet"
+    />
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/Glide.js/3.2.0/glide.min.js"
+      integrity="sha512-IkLiryZhI6G4pnA3bBZzYCT9Ewk87U4DGEOz+TnRD3MrKqaUitt+ssHgn2X/sxoM7FxCP/ROUp6wcxjH/GcI5Q=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/Glide.js/3.2.0/css/glide.core.min.css"
+      integrity="sha512-YQlbvfX5C6Ym6fTUSZ9GZpyB3F92hmQAZTO5YjciedwAaGRI9ccNs4iw2QTCJiSPheUQZomZKHQtuwbHkA9lgw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+
+    <style>
+      * {
+        padding: 0;
+        margin: 0;
+        box-sizing: border-box;
+        font-family: 'Open Sans', sans-serif;
+      }
+
+      :root {
+        --green: #02b302;
+        --text: #777;
+        --border: #ddd;
+        --arrows: #aaa;
+        --title: #555;
+      }
+
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6,
+      b {
+        color: var(--title);
+      }
+
+      p,
+      span {
+        color: var(--text);
+      }
+
+      .product-section {
+        position: relative;
+
+        margin: 0 auto;
+
+        width: 90%;
+        max-width: 1280px;
+      }
+
+      .product-item {
+        padding: 2rem 1rem;
+
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+
+        text-align: center;
+        transition: all ease-in-out 250ms;
+
+        height: 350px;
+
+        cursor: pointer;
+      }
+
+      .product-item:hover {
+        box-shadow: 0 0 1.5rem rgba(0, 0, 0, 0.15);
+      }
+
+      .product-item__thumbnail {
+        margin-bottom: 2rem;
+        width: 4rem;
+        height: 4rem;
+      }
+
+      .product-item__title {
+        font-size: 0.8rem;
+        font-weight: 600;
+      }
+
+      .product-price {
+        font-size: 0.75rem;
+      }
+
+      .old-price .old-price__dashed {
+        text-decoration: line-through;
+      }
+
+      .current-price {
+        color: var(--green);
+      }
+
+      .current-price b {
+        color: var(--green);
+        font-size: 1rem;
+        font-weight: 600;
+      }
+
+      .product-item__divider {
+        -webkit-appearance: none;
+        margin: 1rem 0;
+        border-top: 0.5px dotted var(--border);
+        width: 100%;
+      }
+
+      .product-item__installments {
+        font-size: 0.75rem;
+      }
+
+      .product-item__installments b {
+        font-weight: 600;
+      }
+
+      .btn-left svg,
+      .btn-right svg {
+        width: 1rem;
+        height: 1rem;
+        color: var(--arrows);
+      }
+
+      .btn-left,
+      .btn-right {
+        position: absolute;
+        top: 50%;
+
+        display: grid;
+        place-items: center;
+
+        font-size: 1.5rem;
+
+        width: 2rem;
+        height: 2rem;
+
+        background: none;
+
+        border: 1px solid #ccc;
+        border-radius: 50%;
+
+        cursor: pointer;
+      }
+
+      .btn-left {
+        left: 0;
+      }
+
+      .btn-right {
+        right: 0;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="glide product-section">
+      <div class="glide__track" data-glide-el="track">
+        <section class="glide__slides">
+          <% products.forEach((product) => { %>
+          <div class="glide__slide product-item">
+            <img
+              class="product-item__thumbnail"
+              src="<%= product.thumbnail %>"
+              alt="<%= product.title %>"
+            />
+            <h4 class="product-item__title"><%= product.title %></h4>
+
+            <!-- Product's price -->
+            <div class="product-price">
+              <% if (product.original_price) { %>
+              <p class="old-price">
+                de
+                <span class="old-price__dashed">
+                  <%= product.original_price %>
+                </span>
+              </p>
+              <% } %>
+              <p class="current-price"><b><%= product.price %></b> à vista</p>
+            </div>
+
+            <hr class="product-item__divider" />
+
+            <p class="product-item__installments">
+              ou em até
+              <b
+                ><%= product.installments.quantity %>x de <%=
+                product.installments.amount %></b
+              >
+              iguais no cartão
+            </p>
+          </div>
+          <% }) %>
+        </section>
+      </div>
+      <div class="glide__arrows" data-glide-el="controls">
+        <button
+          class="glide__arrow glide__arrow--left btn-left"
+          data-glide-dir="<"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M15 19l-7-7 7-7"
+            />
+          </svg>
+        </button>
+        <button
+          class="glide__arrow glide__arrow--right btn-right"
+          data-glide-dir=">"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M9 5l7 7-7 7"
+            />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </body>
+
+  <script>
+    new Glide('.glide', {
+      perView: 5,
+      bound: true,
+      breakpoints: {
+        450: {
+          perView: 2,
+        },
+        600: {
+          perView: 3,
+        },
+        1024: {
+          perView: 5,
+        },
+      },
+    }).mount()
+  </script>
+</html>
